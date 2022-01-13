@@ -86,6 +86,10 @@ public class Person {
         this.gender = gender;
     }
 
+    public static PersonBuilder builder() {
+        return new PersonBuilder();
+    }
+
     public static class PersonBuilder {
 
         private String firstName;
