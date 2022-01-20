@@ -1,6 +1,6 @@
 package ru.gb.alekseiterentev;
 
-class LightWeightCar extends Car implements Moveable{
+class LightWeightCar extends Car implements Moveable {
 
     @Override
     void open() {
