@@ -103,7 +103,7 @@ where
     interval_beetween > sec_to_time(30 * 60)
 order by interval_beetween desc;
 
-/*ticketing analysis*/
+/*ticketing analysis by movie*/
 select
     movies.title,
     movie_summary.tickets_by_movie,
@@ -147,3 +147,39 @@ from
             tickets
         group by session_id
     ) session_summary;
+
+/*ticketing analysis by daytime*/
+select
+    period,
+    sum(tickets_sold) tickets_sold_for_period,
+    sum(total_income) total_income_for_period
+from
+    (
+        select
+            case
+                when start_hour >= 9 and start_hour < 15 then '9-15'
+                when start_hour >= 15 and start_hour < 18 then '15-18'
+                when start_hour >= 18 and start_hour < 21 then '18-21'
+                when start_hour >= 21 then '21-00'
+                end as period,
+            start_hours.tickets_sold,
+            start_hours.total_income
+        from
+            (
+                select
+                    HOUR(sessions.start_date) start_hour,
+                    session_summary.tickets_sold,
+                    session_summary.total_income
+                from
+                    (
+                    select
+                    session_id,
+                    count(1) tickets_sold,
+                    sum(cost) total_income
+                    from
+                    tickets
+                    group by session_id) session_summary
+                    join sessions on sessions.id = session_summary.session_id
+            ) start_hours
+    ) periods
+group by period;
