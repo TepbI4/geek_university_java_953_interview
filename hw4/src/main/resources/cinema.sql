@@ -82,3 +82,22 @@ where
         movie1.session_id <> movie2.session_id
   and movie1.start_date < movie2.start_date
   and timediff(movie2.start_date, movie1.start_date) < sec_to_time(movie1.duration);
+
+/*intervals more that 30 mins*/
+select
+    *
+from
+    (select
+         movies_diff.*,
+         timediff(timediff(movies_diff.next_movie_start_date, movies_diff.start_date), movies_diff.duration) interval_beetween
+     from
+         (select
+              movies.title,
+              start_date,
+              sec_to_time(movies.duration * 60) duration,
+              (select start_date from sessions where start_date > movie.start_date order by start_date limit 1) next_movie_start_date
+         from
+      sessions movie
+      join movies on movie_id = movies.id) movies_diff) intervals
+where
+    interval_beetween > sec_to_time(30 * 60);
