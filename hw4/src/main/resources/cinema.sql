@@ -100,4 +100,50 @@ from
       sessions movie
       join movies on movie_id = movies.id) movies_diff) intervals
 where
-    interval_beetween > sec_to_time(30 * 60);
+    interval_beetween > sec_to_time(30 * 60)
+order by interval_beetween desc;
+
+/*ticketing analysis*/
+select
+    movies.title,
+    movie_summary.tickets_by_movie,
+    movie_summary.avg_tickets_by_movie,
+    movie_summary.total_income_by_movie
+from
+    (
+        select
+            sessions.movie_id,
+            sum(tickets_sold) tickets_by_movie,
+            avg(tickets_sold) avg_tickets_by_movie,
+            sum(total_income) total_income_by_movie
+        from
+            (select
+                 session_id,
+                 count(1) tickets_sold,
+                 sum(cost) total_income
+             from
+                 tickets
+             group by session_id) session_summary
+                join sessions on sessions.id = session_summary.session_id
+        group by movie_id
+        order by total_income_by_movie desc
+    ) movie_summary
+        join movies on movie_summary.movie_id = movies.id
+
+union all
+
+select distinct
+    null,
+    sum(tickets_sold) over(),
+        avg(tickets_sold) over(),
+        sum(total_income) over()
+from
+    (
+        select
+            session_id,
+            count(1) tickets_sold,
+            sum(cost) total_income
+        from
+            tickets
+        group by session_id
+    ) session_summary;
