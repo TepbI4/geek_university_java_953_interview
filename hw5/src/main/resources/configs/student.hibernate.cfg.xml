@@ -13,6 +13,6 @@
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
 
-<!--        <mapping class="ru.gb.alekseiterentev.shop.model.Product"/>-->
+        <mapping class="ru.gb.alekseiterentev.hibernate.model.Student"/>
     </session-factory>
 </hibernate-configuration>
