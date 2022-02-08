@@ -12,6 +12,7 @@
         <module name="hw3" />
         <module name="hw6" />
         <module name="hw5" />
+        <module name="hw7" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="hw4" options="-parameters" />
       <module name="hw5" options="-parameters" />
       <module name="hw6" options="-parameters" />
+      <module name="hw7" options="-parameters" />
     </option>
   </component>
 </project>
