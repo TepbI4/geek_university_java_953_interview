@@ -22,7 +22,7 @@
       <module name="hw3" options="-parameters" />
       <module name="hw4" options="-parameters" />
       <module name="hw5" options="-parameters" />
-      <module name="hw6" options="-parameters" />
+      <module name="hw6" options="" />
     </option>
   </component>
 </project>
